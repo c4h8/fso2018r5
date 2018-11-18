@@ -15,7 +15,7 @@ class App extends React.Component {
     service.getBlogs().then(blogs =>
       this.setState({ blogs })
     );
-  } 
+  }
 
   render() {
     return (
