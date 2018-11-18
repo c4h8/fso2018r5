@@ -25,14 +25,40 @@ class LoginForm extends React.Component {
 
     service
       .login(this.state.username, this.state.password)
-      .then(res => this.setState({ user: res.data }))
+      .then(res => {
+        const user = res.data ;
+
+        this.setState({ user });
+        window.localStorage.setItem('loggedInUser', JSON.stringify(user));
+      })
       .catch(e => window.alert(e));
+  }
+
+  handleLogout = () => {
+    window.localStorage.removeItem('loggedInUser');
+
+    this.setState({
+      username: '',
+      password: '',
+      user: undefined
+    });
+  }
+
+  componentDidMount() {
+    try {
+      const user = JSON.parse(window.localStorage.getItem('loggedInUser'));
+
+      this.setState({user});
+    } catch(e) {
+      window.alert(e);
+    }
   }
 
   render() {
     if(this.state.user) return (
       <div>
         logged in as {`${this.state.user.name}`}
+        <button onClick={ this.handleLogout }>logout</button>
       </div>
     );
 
