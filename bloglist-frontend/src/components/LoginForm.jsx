@@ -14,9 +14,6 @@ class LoginForm extends React.Component {
     const field = e.target.name;
     const value = e.target.value;
 
-    console.log(field)
-    console.log(value)
-
     this.setState(prevstate => ({
       ...prevstate,
       [field]: value
@@ -29,7 +26,7 @@ class LoginForm extends React.Component {
     service
       .login(this.state.username, this.state.password)
       .then(res => this.setState({ user: res.data }))
-      .catch(e => window.alert(e))
+      .catch(e => window.alert(e));
   }
 
   render() {
