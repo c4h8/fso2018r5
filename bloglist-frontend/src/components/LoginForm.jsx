@@ -1,5 +1,6 @@
 import React from 'react';
 import service from '../services/service';
+import PropTypes from 'prop-types';
 
 class LoginForm extends React.Component {
   constructor(props) {
@@ -10,7 +11,7 @@ class LoginForm extends React.Component {
     };
   }
 
-  handleFormChange = e => {
+  handleFormChange = (e) => {
     const field = e.target.name;
     const value = e.target.value;
 
@@ -27,8 +28,7 @@ class LoginForm extends React.Component {
       .login(this.state.username, this.state.password)
       .then(res => {
         const user = res.data ;
-
-        this.setState({ user });
+        this.props.setUser(user);
         window.localStorage.setItem('loggedInUser', JSON.stringify(user));
       })
       .catch(e => window.alert(e));
@@ -36,28 +36,18 @@ class LoginForm extends React.Component {
 
   handleLogout = () => {
     window.localStorage.removeItem('loggedInUser');
+    this.props.setUser(undefined);
 
     this.setState({
       username: '',
       password: '',
-      user: undefined
     });
   }
 
-  componentDidMount() {
-    try {
-      const user = JSON.parse(window.localStorage.getItem('loggedInUser'));
-
-      this.setState({user});
-    } catch(e) {
-      window.alert(e);
-    }
-  }
-
   render() {
-    if(this.state.user) return (
+    if(this.props.user) return (
       <div>
-        logged in as {`${this.state.user.name}`}
+        logged in as {`${this.props.user.name}`}
         <button onClick={ this.handleLogout }>logout</button>
       </div>
     );
@@ -81,5 +71,10 @@ class LoginForm extends React.Component {
     );
   }
 }
+
+LoginForm.propTypes = ({
+  user: PropTypes.instanceOf(Object),
+  setUser: PropTypes.func,
+});
 
 export default LoginForm;
