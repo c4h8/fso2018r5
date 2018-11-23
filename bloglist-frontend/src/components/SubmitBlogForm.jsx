@@ -1,6 +1,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import service from '../services/service';
+import { parseError, errorStyle, infoStyle } from '../utils';
 
 class SubmitBlogForm extends React.Component {
   constructor(props) {
@@ -8,7 +9,7 @@ class SubmitBlogForm extends React.Component {
     this.state = ({
       title: '',
       author: '',
-      url: ''
+      url: '',
     });
   }
 
@@ -29,10 +30,16 @@ class SubmitBlogForm extends React.Component {
       .submitBlog(this.state)
       .then(res => {
         const newBlog = res.data;
-
         this.props.concatBlog(newBlog);
+        this.props.postNotification({
+          message: `Added ${newBlog.name} by ${newBlog.author}`,
+          style: infoStyle
+        });
       })
-      .catch(e => window.alert(e));
+      .catch(e => this.props.postNotification({
+        message: parseError(e),
+        style: errorStyle
+      }));
   }
 
   render() {
@@ -63,6 +70,7 @@ class SubmitBlogForm extends React.Component {
 
 SubmitBlogForm.propTypes = ({
   concatBlog: PropTypes.func,
+  postNotification: PropTypes.func,
 });
 
 export default SubmitBlogForm;

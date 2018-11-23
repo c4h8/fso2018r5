@@ -1,6 +1,7 @@
 import React from 'react';
 import service from '../services/service';
 import PropTypes from 'prop-types';
+import { parseError, errorStyle, infoStyle } from '../utils';
 
 class LoginForm extends React.Component {
   constructor(props) {
@@ -28,10 +29,19 @@ class LoginForm extends React.Component {
       .login(this.state.username, this.state.password)
       .then(res => {
         const user = res.data ;
+        
         this.props.setUser(user);
         window.localStorage.setItem('loggedInUser', JSON.stringify(user));
+
+        this.props.postNotification({
+          message: 'logged in',
+          style: infoStyle
+        });
       })
-      .catch(e => window.alert(e));
+      .catch(e => this.props.postNotification({
+        message: parseError(e),
+        style: errorStyle
+      }));
   }
 
   handleLogout = () => {
@@ -75,6 +85,7 @@ class LoginForm extends React.Component {
 LoginForm.propTypes = ({
   user: PropTypes.instanceOf(Object),
   setUser: PropTypes.func,
+  postNotification: PropTypes.func,
 });
 
 export default LoginForm;
