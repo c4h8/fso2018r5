@@ -16,8 +16,8 @@ class LoginForm extends React.Component {
     const field = e.target.name;
     const value = e.target.value;
 
-    this.setState(prevstate => ({
-      ...prevstate,
+    this.setState(prevState => ({
+      ...prevState,
       [field]: value
     }));
   }

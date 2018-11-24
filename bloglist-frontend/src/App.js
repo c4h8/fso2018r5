@@ -45,6 +45,15 @@ class App extends React.Component {
     setTimeout(() => this.removeNotification(id), 2000);
   }
 
+  toggleBlog = (id) => {
+    const newBlogs = this.state.blogs.map(blog => blog._id === id
+      ? {...blog, expanded: !blog.expanded}
+      : blog  
+    );
+
+    this.setState({ blogs: newBlogs });
+  }
+
   concatBlog = (blog) => this.setState(prevState => ({ blogs: prevState.blogs.concat(blog)}));
 
   render() {
@@ -62,7 +71,7 @@ class App extends React.Component {
         }
         <h2>blogs</h2>
         {this.state.blogs.map(blog => 
-          <Blog key={blog._id} blog={blog}/>
+          <Blog key={blog._id} blog={blog} toggleBlog={this.toggleBlog}/>
         )}
       </div>
     );
