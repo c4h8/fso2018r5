@@ -78,6 +78,18 @@ class App extends React.Component {
 
   concatBlog = (blog) => this.setState(prevState => ({ blogs: prevState.blogs.concat(blog)}));
 
+  deleteBlog = (id) => {
+
+    service.deleteBlog(id)
+      .then(() =>
+        this.setState(prevState => ({ blogs: prevState.blogs.filter(b => b._id !== id)}))
+      )
+      .catch(e => this.postNotification({
+        message: parseError(e),
+        style: errorStyle
+      }));
+  }
+
   render() {
     const renderBlogs = [...this.state.blogs].sort((a, b) => b.likes- a.likes);
 
@@ -100,6 +112,8 @@ class App extends React.Component {
             blog={blog}
             toggleBlog={this.toggleBlog}
             likeBlog={this.likeBlog}
+            deleteBlog={this.deleteBlog}
+            username={this.state.user && this.state.user.username}
           />
         )}
       </div>

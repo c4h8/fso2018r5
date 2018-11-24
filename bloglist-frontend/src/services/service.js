@@ -29,7 +29,7 @@ const service = {
     return axios.put(`api/blogs/${blog._id}`, payload, authHeader);
   },
 
-
+  deleteBlog: id => axios.delete(`api/blogs/${id}`, authHeader),
 
   login: (username, password) => axios.post('/api/login', ({ username, password })),
 };

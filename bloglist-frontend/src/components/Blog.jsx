@@ -5,11 +5,20 @@ const blogStyle = ({
   paddingTop: 10,
   paddingLeft: 2,
   backgroundColor: '#e5e5e5',
-  marginBottom: 5,
+  margin: '10px 0px',
   boxSizing: 'border-box'
 });
 
-const Blog = ({ blog, toggleBlog, likeBlog }) => {
+const Blog = ({ blog, toggleBlog, likeBlog, deleteBlog, username }) => {
+  const deleteButton = (!blog.user || blog.user.username === username)
+    ?(
+      <React.Fragment>
+        <button onClick={() => deleteBlog(blog._id)}>
+          Delete
+        </button>
+      </React.Fragment>)
+    : null;
+
   const payload = blog.expanded
     ? (
       <React.Fragment>
@@ -17,6 +26,7 @@ const Blog = ({ blog, toggleBlog, likeBlog }) => {
         <span>
           {`${blog.likes} likes `}
           <button onClick={() => likeBlog(blog)}>like</button>
+          {deleteButton}
         </span>
       </React.Fragment>)
     : null;
@@ -31,7 +41,9 @@ const Blog = ({ blog, toggleBlog, likeBlog }) => {
 Blog.propTypes = ({
   blog: PropTypes.instanceOf(Object),
   toggleBlog: PropTypes.func,
-  likeBlog: PropTypes.func
+  likeBlog: PropTypes.func,
+  deleteBlog: PropTypes.func,
+  username: PropTypes.string
 });
 
 export default Blog;
