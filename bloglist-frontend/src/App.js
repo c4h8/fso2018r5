@@ -79,6 +79,8 @@ class App extends React.Component {
   concatBlog = (blog) => this.setState(prevState => ({ blogs: prevState.blogs.concat(blog)}));
 
   render() {
+    const renderBlogs = [...this.state.blogs].sort((a, b) => b.likes- a.likes);
+
     return (
       <div>
         <div>
@@ -92,7 +94,7 @@ class App extends React.Component {
           : null
         }
         <h2>blogs</h2>
-        {this.state.blogs.map(blog => 
+        {renderBlogs.map(blog => 
           <Blog
             key={blog._id}
             blog={blog}

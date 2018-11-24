@@ -14,7 +14,8 @@ const Blog = ({ blog, toggleBlog, likeBlog }) => {
     ? (
       <React.Fragment>
         <p>{blog.url}</p>
-        <span>{`${blog.likes} like`}
+        <span>
+          {`${blog.likes} likes `}
           <button onClick={() => likeBlog(blog)}>like</button>
         </span>
       </React.Fragment>)
