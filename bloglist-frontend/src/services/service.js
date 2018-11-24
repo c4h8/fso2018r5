@@ -17,6 +17,19 @@ const service = {
   submitBlog: blog =>
     axios.post('/api/blogs', blog, authHeader),
 
+  likeBlog: blog => {
+    const payload = ({
+      user: blog.user._id,
+      likes: blog.likes + 1,
+      author: blog.author,
+      title: blog.title,
+      url: blog.url
+    });
+
+    return axios.put(`api/blogs/${blog._id}`, payload, authHeader);
+  },
+
+
 
   login: (username, password) => axios.post('/api/login', ({ username, password })),
 };

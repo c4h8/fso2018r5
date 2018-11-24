@@ -9,25 +9,28 @@ const blogStyle = ({
   boxSizing: 'border-box'
 });
 
-const Blog = ({ blog: {_id, title, author, likes, url, expanded}, toggleBlog }) => {
-  const payload = expanded
+const Blog = ({ blog, toggleBlog, likeBlog }) => {
+  const payload = blog.expanded
     ? (
       <React.Fragment>
-        {url}
-        {`${likes} like`} <button>like</button>
+        <p>{blog.url}</p>
+        <span>{`${blog.likes} like`}
+          <button onClick={() => likeBlog(blog)}>like</button>
+        </span>
       </React.Fragment>)
     : null;
 
   return (
     <div style={blogStyle}>
-      <div onClick={() => toggleBlog(_id)}>{ title } { author }</div>
+      <div onClick={() => toggleBlog(blog._id)}>{ blog.title } { blog.author }</div>
       { payload }
     </div>);
 };
 
 Blog.propTypes = ({
   blog: PropTypes.instanceOf(Object),
-  toggleBlog: PropTypes.func
+  toggleBlog: PropTypes.func,
+  likeBlog: PropTypes.func
 });
 
 export default Blog;

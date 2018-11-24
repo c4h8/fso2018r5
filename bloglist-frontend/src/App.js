@@ -3,6 +3,7 @@ import Blog from './components/Blog';
 import LoginForm from './components/LoginForm';
 import service from './services/service';
 import SubmitBlogForm from './components/SubmitBlogForm';
+import { parseError, errorStyle, infoStyle } from './utils';
 
 class App extends React.Component {
   constructor(props) {
@@ -54,6 +55,27 @@ class App extends React.Component {
     this.setState({ blogs: newBlogs });
   }
 
+  likeBlog = (blog) => {
+    service.likeBlog(blog)
+      .then(() => {
+        const newBlogs = this.state.blogs.map(b => b._id === blog._id
+          ? {...b, likes: b.likes + 1}
+          : b  
+        );
+    
+        this.setState({ blogs: newBlogs });
+
+        this.postNotification({
+          message: `liked blog ${blog.title}`,
+          style: infoStyle
+        });
+      })
+      .catch(e => this.postNotification({
+        message: parseError(e),
+        style: errorStyle
+      }));
+  }
+
   concatBlog = (blog) => this.setState(prevState => ({ blogs: prevState.blogs.concat(blog)}));
 
   render() {
@@ -71,7 +93,12 @@ class App extends React.Component {
         }
         <h2>blogs</h2>
         {this.state.blogs.map(blog => 
-          <Blog key={blog._id} blog={blog} toggleBlog={this.toggleBlog}/>
+          <Blog
+            key={blog._id}
+            blog={blog}
+            toggleBlog={this.toggleBlog}
+            likeBlog={this.likeBlog}
+          />
         )}
       </div>
     );
