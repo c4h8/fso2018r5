@@ -23,17 +23,15 @@ const Blog = ({ blog, toggleBlog, likeBlog, deleteBlog, username }) => {
     ? (
       <React.Fragment>
         <p>{blog.url}</p>
-        <span>
-          {`${blog.likes} likes `}
-          <button onClick={() => likeBlog(blog)}>like</button>
-          {deleteButton}
-        </span>
+        <span className="blog-likes"> {`${blog.likes} likes `} </span>
+        <button onClick={() => likeBlog(blog)}>like</button>
+        {deleteButton}
       </React.Fragment>)
     : null;
 
   return (
     <div style={blogStyle}>
-      <div onClick={() => toggleBlog(blog._id)}>{ blog.title } { blog.author }</div>
+      <div className="blog-header" onClick={() => toggleBlog(blog._id)}>{ blog.title } { blog.author }</div>
       { payload }
     </div>);
 };
