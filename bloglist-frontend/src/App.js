@@ -105,17 +105,18 @@ class App extends React.Component {
           ? <SubmitBlogForm concatBlog={this.concatBlog} postNotification={this.postNotification} />
           : null
         }
-        <h2>blogs</h2>
-        {renderBlogs.map(blog => 
-          <Blog
-            key={blog._id}
-            blog={blog}
-            toggleBlog={this.toggleBlog}
-            likeBlog={this.likeBlog}
-            deleteBlog={this.deleteBlog}
-            username={this.state.user && this.state.user.username}
-          />
-        )}
+        {this.state.user
+          ? renderBlogs.map(blog => 
+            <Blog
+              key={blog._id}
+              blog={blog}
+              toggleBlog={this.toggleBlog}
+              likeBlog={this.likeBlog}
+              deleteBlog={this.deleteBlog}
+              username={this.state.user && this.state.user.username}
+            />)
+          : null
+        }
       </div>
     );
   }
