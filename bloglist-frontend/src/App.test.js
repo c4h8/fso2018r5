@@ -4,7 +4,6 @@ import { mount } from 'enzyme';
 jest.mock('./services/service');
 
 import Blog from './components/Blog';
-import LoginForm from './components/LoginForm';
 import App from './App';
 
 const userdata = ({
@@ -24,6 +23,10 @@ describe('<App />', () => {
 
     it('it should render blogs fetched from backend', () => {
       app.update();
+
+      const loginFormComponents = app.find('form.login-form');
+      expect(loginFormComponents.length).toEqual(0);
+
       const blogComponents = app.find(Blog);
       expect(blogComponents.length).toEqual(3);
     });
@@ -31,15 +34,19 @@ describe('<App />', () => {
 
   describe('when user is not logged in', () => {
     beforeEach(() => {
-      window.localStorage.setItem('loggedInUser', JSON.stringify(userdata));
+      window.localStorage.clear();
       app = mount(<App />); 
     });
 
     it('it should display a login form', () => {
       app.update();
-      const blogComponents = app.find(LoginForm);
-      expect(blogComponents.length).toEqual(1);
+
+      const loginFormComponents = app.find('form.login-form');
+      expect(loginFormComponents.length).toEqual(1);
+
+      const blogComponents = app.find(Blog);
+      expect(blogComponents.length).toEqual(0);
     });
   });
-  
+
 });
