@@ -14,10 +14,11 @@ const counterReducer = (state = initialState, action) => {
       return {...state, ok: state.ok + 1};
     case types.FEEDBACK_BAD:
       return {...state, bad: state.bad + 1};
+    case types.RESET_FEEDBACK:
+      return initialState
     default:
       return state;
-  };
+  }
 };
 
 export default counterReducer;
-

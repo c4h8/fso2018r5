@@ -11,3 +11,7 @@ export const rateOk = () => ({
 export const rateBad = () => ({
   type: actionTypes.FEEDBACK_BAD
 });
+
+export const resetFeedback = () => ({
+  type: actionTypes.RESET_FEEDBACK
+});
